@@ -1,7 +1,6 @@
    <?php
 require_once 'DbConnect.php';
 require 'CalculateManagerSalary.php';
-
 function CalculateSalary($id)
 {
     $data = findQuery("select Employee.*,BandSalary.Salary Salary from Employee inner join BandSalary on BandSalary.id=Employee.Band where Employee.id=$id ");
