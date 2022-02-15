@@ -47,8 +47,6 @@ class Validate
             return 1;
         }
 
-        
-
         if (filter_var($Age, FILTER_VALIDATE_INT, array("options" => array("min_range" => 0, "max_range" => 100))) === false) {
 
             $message = "false";
@@ -75,7 +73,6 @@ class Validate
                 $Empid = $EmployeeMaster->_id;
                 $EmpBand = $EmployeeMaster->Band;
 
-
             }
 
             if ($Empid) {
@@ -84,7 +81,6 @@ class Validate
 
                 foreach ($dataCheckmangedby as $dataCheckmanged) {
                     $Bandid = $dataCheckmanged->_id;
-                   
 
                 }
 

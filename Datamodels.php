@@ -27,4 +27,11 @@ class Datamodels
     {
         unset($this->data[$name]);
     }
+
+    public function __call($function, $args)
+    {
+        $args = implode(', ', $args);
+        print "Call to $function() with args '$args' failed!\n";
+        exit();
+    }
 }
