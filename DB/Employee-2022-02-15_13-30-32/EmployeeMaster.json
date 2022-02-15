@@ -1,0 +1,32 @@
+{ 
+    "_id" : NumberInt(7877), 
+    "Name" : "Asvin ", 
+    "Age" : NumberInt(10), 
+    "Band" : NumberInt(3), 
+    "Rating" : NumberInt(5), 
+    "ManagedBy" : NumberInt(0)
+}
+{ 
+    "_id" : NumberInt(6709), 
+    "Name" : "Silpa ", 
+    "Age" : NumberInt(10), 
+    "Band" : NumberInt(2), 
+    "Rating" : NumberInt(5), 
+    "ManagedBy" : NumberInt(7877)
+}
+{ 
+    "_id" : NumberInt(5847), 
+    "Name" : "Shyla ", 
+    "Age" : NumberInt(10), 
+    "Band" : NumberInt(2), 
+    "Rating" : NumberInt(5), 
+    "ManagedBy" : NumberInt(7877)
+}
+{ 
+    "_id" : NumberInt(501), 
+    "Name" : "Silpa KS ", 
+    "Age" : NumberInt(10), 
+    "Band" : NumberInt(1), 
+    "Rating" : NumberInt(5), 
+    "ManagedBy" : NumberInt(7877)
+}
