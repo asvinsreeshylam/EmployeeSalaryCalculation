@@ -10,40 +10,86 @@ require_once 'DbConnect.php';
 $id = (int) $_REQUEST['id'];
 
 if ($id > 0) {
-    $data = findQuery("select Employee.*,BandSalary.Name Band from Employee inner join BandSalary on BandSalary.id=Employee.Band where Employee.id=$id ");
+    $db = new CRUD();
+    $results = $db->FindRecords("EmployeeMaster", ['_id' => $id]);
+
+    foreach ($results as $row) {
+        $data[] = (array) $row;
+    }
+
 } else {
-    $data = findQuery("select Employee.*,BandSalary.Name Band from Employee inner join BandSalary on BandSalary.id=Employee.Band order by Employee.id Desc  ");
+    $db = new CRUD();
+    $results = $db->FindRecords("EmployeeMaster", []);
+
+    foreach ($results as $row) {
+        $data[] = (array) $row;
+    }
 }
+
+
+
 
 if (!$data) {
     $message = "false";
     $data2[] = array("error" => "No details found");
+    echo json_encode(array("Status" => $message, "data" => $data2));
+return;
+
 
 } else {
-    for ($i = 0; $i < count($data); $i++) {
-        if ($data[$i]['id']) {
-            $manager = "";
-            $ManagedBy = $data[$i]['ManagedBy'];
 
-            if ($ManagedBy > 0) {
-                $dataMngdBy = findQuery("select Employee.Name from Employee where id= $ManagedBy  ");
+   for ($i = 0; $i < count($data); $i++) {
 
-                $manager = $dataMngdBy[0]['Name'];
-            }
+        $MangedByid = $data[$i]['ManagedBy'];
+        $Band = $data[$i]['Band'];
 
-            $message = "true";
-            $data2[] = array(
-                "id" => $data[$i]['id'],
-                "Name" => $data[$i]['Name'],
-                "Age" => $data[$i]['Age'],
-                "Band" => $data[$i]['Band'],
-                "Rating" => $data[$i]['Rating'],
-                "ManagedBy" => $manager,
+        $Manager = "";
 
-            );
+        
 
-        }
-    }
+            if ($MangedByid > 0) {
+                $results = $db->FindRecords("EmployeeMaster", ['_id' => $MangedByid]);
+                $datamangerResult = $results->toArray();
+
+                foreach ($datamangerResult as $row) {
+    $datamanger[] = (array) $row;
 }
-echo json_encode(array("Status" => $message, "data" => $data2));
-return;
+
+
+                $manager = $datamanger[0]['Name'];
+               
+
+            }
+        
+
+        if ($Band) {
+
+            if ($Band > 0) {
+                $results = $db->FindRecords("EmployeeCategory", ['_id' => $Band]);
+                $dataBandResult = $results->toArray();
+
+                 foreach ($dataBandResult as $row) {
+    $dataBand[] = (array) $row;
+}
+
+                $Band = $dataBand[0]['Name'];
+
+            }
+        }
+
+        $message = "true";
+        $data2[] = array(
+            "id" => $data[$i]['_id'],
+            "Name" => $data[$i]['Name'],
+            "Age" => $data[$i]['Age'],
+            "Band" => $Band,
+            "Rating" => $data[$i]['Rating'],
+            "ManagedBy" => $manager,
+
+        );
+
+    }
+
+    echo json_encode(array("Status" => $message, "data" => $data2));
+    return;
+}

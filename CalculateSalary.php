@@ -1,28 +1,30 @@
    <?php
 require_once 'DbConnect.php';
-require 'CalculateManagerSalary.php';
-function CalculateSalary($id)
-{
-    $data = findQuery("select Employee.*,BandSalary.Salary Salary from Employee inner join BandSalary on BandSalary.id=Employee.Band where Employee.id=$id ");
+require_once 'CalculateManagerSalary.php';
 
-    $Salary = 0;
-    if ($data) {
-        $Band = $data[0]['Band'];
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Max-Age: 1000');
+header('Access-Control-Allow-Headers: Content-Type');
 
-        if ($Band == 1) {
+$data = file_get_contents('php://input');
+$data = json_decode($data, true);
 
-            $Salary = $data[0]['Salary'];
-        } else if ($Band == 2) {
-            $Salary = $data[0]['Salary'] + ($data[0]['Salary'] * $data[0]['Rating'] / 5);
-        } else {
+$id = $data['id'];
 
-            $Salary = $data[0]['Salary'] + ($data[0]['Salary'] * $data[0]['Rating'] / 5);
-            $Salary = CalculatemanagerSalary($id, $Salary);
+if (!filter_var($id, FILTER_VALIDATE_INT)) {
 
-        }
+    $message = "false";
+    $data2[] = array("error" => "Please Enter Valid Employee");
 
-    }
-    return $Salary;
+    echo json_encode(array("Status" => $message, "data" => $data2));
+    return;
+    
 
 }
+
+$db = new CalculateSalary();
+$db->CalculateEmpSalary($id);
+
+
 ?>
